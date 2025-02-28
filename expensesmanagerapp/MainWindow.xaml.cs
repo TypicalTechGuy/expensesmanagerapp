@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using expensesmanagerapp.UserControls;
 
 namespace expensesmanagerapp
 {
@@ -28,7 +29,20 @@ namespace expensesmanagerapp
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Login Successful");
+            MessageBox.Show("Login Success");
+            Dashboard dashboardPage = new Dashboard();
+            MainWindows.Children.Clear();
+            MainWindows.Children.Add(dashboardPage);
+        }
+
+        private void Register_Click(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Redirecting to the Registration Page...");
+        }
+
+        private void ForgotPassword_Click(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Redirecting to Password Recovery...");
         }
     }
 }

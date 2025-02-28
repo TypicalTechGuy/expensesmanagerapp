@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:expensesmanagerapp"
         mc:Ignorable="d"
-        Title="ExManaApp" Height="517" Width="800">
+        Title="ExManaApp" Height="520" Width="800">
 
     <Window.Resources>
         <Style x:Key="RoundedTextBoxStyle" TargetType="Border">
@@ -28,7 +28,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid x:Name="MainWindows" Background="#FF1C1C1C" Margin="0,0,0,-6">
+    <Grid x:Name="MainWindows" Background="#FF1C1C1C" Margin="0,0,0,-6" Height="510">
         <Label x:Name="Title" Content="ExMana&#xD;&#xA;An Expenses Manager Application" 
                Margin="32,34,0,0" VerticalAlignment="Top" Height="76" Width="420" 
                Foreground="White" FontFamily="Microsoft YaHei UI" HorizontalAlignment="Left" 
@@ -70,7 +70,7 @@
                     Cursor="Hand" Click="LoginButton_Click"/>
             </Border>
         </StackPanel>
-        <Label Content="Don't Have an Account? Register Here" HorizontalAlignment="Left" Margin="36,345,0,0" VerticalAlignment="Top" Foreground="#FF5865F2"/>
-        <Label Content="Forgot Password?" HorizontalAlignment="Left" Margin="90,371,0,0" VerticalAlignment="Top" Foreground="#FF5685F2"/>
+        <Label Content="Don't Have an Account? Register Here" HorizontalAlignment="Left" Margin="36,345,0,0" VerticalAlignment="Top" Foreground="#FF5865F2" Cursor="Hand" MouseLeftButtonDown="Register_Click"/>
+        <Label Content="Forgot Password?" HorizontalAlignment="Left" Margin="90,371,0,0" VerticalAlignment="Top" Foreground="#FF5685F2" Cursor="Hand" MouseLeftButtonDown="ForgotPassword_Click"/>
     </Grid>
 </Window>

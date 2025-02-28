@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="expensesmanagerapp.UserControls.Dashboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:expensesmanagerapp.UserControls"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" Height="510" Width="800">
+    <UserControl.Resources>
+        <Style x:Key="CustomLabelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#FF1C1C1C" Width="800" Height="510">
+        <Label x:Name="greetingLabel" Content="Good &lt;time&gt;,&#xD;&#xA; &lt;user&gt;" 
+               HorizontalAlignment="Left" 
+               Margin="30,30,0,0" 
+               VerticalAlignment="Top" 
+               Style="{StaticResource CustomLabelStyle}" FontSize="24" Height="72" Width="334"/>
+        <Image x:Name="income" Margin="30,189,620,281" Source="/img/income.png" Stretch="Fill"/>
+        <Label x:Name="incomeLabel" Content="Income" HorizontalAlignment="Left" Margin="79,187,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Microsoft YaHei UI"/>
+        <Image Margin="214,189,436,281" Source="/img/outcome.png" Stretch="Fill"/>
+        <Label x:Name="moneyIncome" Content="Rp 5,000,000" HorizontalAlignment="Left" Margin="61,204,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Microsoft YaHei UI" FontWeight="SemiBold"/>
+        <Label x:Name="spendingLabel" Content="Spending" HorizontalAlignment="Left" Margin="255,187,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Microsoft YaHei UI"/>
+        <Label x:Name="moneySpending" Content="Rp 1,000,000" HorizontalAlignment="Left" Margin="243,204,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Microsoft YaHei UI" FontWeight="SemiBold"/>
+        <Image Margin="30,118,436,352" Source="/img/balance.png" Stretch="Fill"/>
+        <Label x:Name="incomeLabel_Copy" Content="Balance: Rp. 4,000,000" HorizontalAlignment="Left" Margin="96,122,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Microsoft YaHei UI" FontSize="18"/>
+
+        <lvc:PieChart Name="myPieChart" Margin="466,90,77,182">
+            <lvc:PieChart.Series>
+                <lvc:PieSeries Title="Bills and Utilities" Values="{Binding BillsValue}" Fill="DeepPink"/>
+                <lvc:PieSeries Title="Education" Values="{Binding EducationValue}" Fill="Orange"/>
+                <lvc:PieSeries Title="Shopping" Values="{Binding ShoppingValue}" Fill="LightBlue"/>
+                <lvc:PieSeries Title="Entertainment" Values="{Binding EntertainmentValue}" Fill="LightGreen"/>
+                <lvc:PieSeries Title="Miscellaneous" Values="{Binding MiscellaneousValue}" Fill="MediumPurple"/>
+            </lvc:PieChart.Series>
+        </lvc:PieChart>
+        <Label x:Name="incomeLabel_Copy1" Content="Spending Summary" HorizontalAlignment="Left" Margin="505,43,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Microsoft YaHei UI" FontSize="18"/>
+    </Grid>
+</UserControl>

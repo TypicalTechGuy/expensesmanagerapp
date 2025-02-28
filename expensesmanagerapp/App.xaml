@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:expensesmanagerapp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="CustomLabelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="Microsoft YaHei UI"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
     </Application.Resources>
 </Application>
