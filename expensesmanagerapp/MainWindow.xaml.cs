@@ -22,6 +22,7 @@ namespace expensesmanagerapp
             InitializeComponent();
         }
 
+
         private void usertxbox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -33,11 +34,13 @@ namespace expensesmanagerapp
             Dashboard dashboardPage = new Dashboard();
             MainWindows.Children.Clear();
             MainWindows.Children.Add(dashboardPage);
-        }
+        }   
 
         private void Register_Click(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Redirecting to the Registration Page...");
+            Register registerPage = new Register();
+            MainWindows.Children.Clear();
+            MainWindows.Children.Add(registerPage);
         }
 
         private void ForgotPassword_Click(object sender, MouseButtonEventArgs e)
