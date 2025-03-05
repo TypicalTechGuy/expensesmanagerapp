@@ -26,6 +26,17 @@
             <Setter Property="MinWidth" Value="200"/>
             <Setter Property="MaxWidth" Value="220"/>
         </Style>
+
+        <Style x:Key="RoundedPasswordBoxInnerStyle" TargetType="PasswordBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="8,5,8,5"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="MaxWidth" Value="220"/>
+        </Style>
     </Window.Resources>
 
     <Grid x:Name="MainWindows" Background="#FF1C1C1C" Margin="0,0,0,-6" Height="510">
@@ -42,34 +53,26 @@
                FontSize="16"/>
 
         <StackPanel Margin="32,188,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Label x:Name="SignIn_1" Content="Username" 
-               Foreground="White" FontFamily="Microsoft YaHei UI" 
-               FontSize="16"/>
-
+            <Label Content="Email " Foreground="White" FontFamily="Microsoft YaHei UI" FontSize="16"/>
             <Border Style="{StaticResource RoundedTextBoxStyle}" Width="220" Height="40">
-                <TextBox x:Name="usertxbox" Style="{StaticResource RoundedTextBoxInnerStyle}" 
-                     Text="Username" FontFamily="Microsoft YaHei"/>
+                <TextBox x:Name="usertxbox" Style="{StaticResource RoundedTextBoxInnerStyle}" FontFamily="Microsoft YaHei" FontSize="12"/>
             </Border>
         </StackPanel>
 
         <StackPanel Margin="32,268,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Label x:Name="SignIn_2" Content="Password" 
-               Foreground="White" FontFamily="Microsoft YaHei UI" 
-               FontSize="16"/>
-
+            <Label Content="Password" Foreground="White" FontFamily="Microsoft YaHei UI" FontSize="16"/>
             <Border Style="{StaticResource RoundedTextBoxStyle}" Width="220" Height="40">
-                <TextBox x:Name="pwtxbox" Style="{StaticResource RoundedTextBoxInnerStyle}" 
-                     Text="Password" FontFamily="Microsoft YaHei"/>
+                <PasswordBox x:Name="pwtxbox" Style="{StaticResource RoundedPasswordBoxInnerStyle}" FontFamily="Microsoft YaHei" FontSize="12"/>
             </Border>
         </StackPanel>
 
         <StackPanel Margin="32,406,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Border Style="{StaticResource RoundedTextBoxStyle}" Width="220" Height="40">
                 <Button Content="Login" FontSize="16" Foreground="Black" Background="White"
-                    BorderThickness="0" FontFamily="Microsoft YaHei" 
-                    Cursor="Hand" Click="LoginButton_Click"/>
+                    BorderThickness="0" FontFamily="Microsoft YaHei" Cursor="Hand" Click="LoginButton_Click"/>
             </Border>
         </StackPanel>
+        
         <Label Content="Don't Have an Account? Register Here" HorizontalAlignment="Left" Margin="36,345,0,0" VerticalAlignment="Top" Foreground="#FF5865F2" Cursor="Hand" MouseLeftButtonDown="Register_Click"/>
         <Label Content="Forgot Password?" HorizontalAlignment="Left" Margin="90,371,0,0" VerticalAlignment="Top" Foreground="#FF5685F2" Cursor="Hand" MouseLeftButtonDown="ForgotPassword_Click"/>
     </Grid>

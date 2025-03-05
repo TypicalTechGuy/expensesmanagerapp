@@ -9,6 +9,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using expensesmanagerapp.UserControls;
+using expensesmanagerapp.Models;
+using BCrypt.Net;
 
 namespace expensesmanagerapp
 {
@@ -17,6 +19,7 @@ namespace expensesmanagerapp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private dbConnect database = new dbConnect();
         public MainWindow()
         {
             InitializeComponent();
@@ -30,11 +33,29 @@ namespace expensesmanagerapp
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Login Success");
-            Dashboard dashboardPage = new Dashboard();
-            MainWindows.Children.Clear();
-            MainWindows.Children.Add(dashboardPage);
-        }   
+            string email = usertxbox.Text.Trim();
+            string password = pwtxbox.Password;
+
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Please enter email and password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            bool isValidUser = database.ValidateUser(email, password);
+            if (isValidUser) 
+            {
+                MessageBox.Show("Login Successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                Dashboard dashboardPage = new Dashboard();
+                MainWindows.Children.Clear();
+                MainWindows.Children.Add(dashboardPage);
+            }
+            else
+            {
+                MessageBox.Show("Invalid Email or Password!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        } 
+        
 
         private void Register_Click(object sender, MouseButtonEventArgs e)
         {

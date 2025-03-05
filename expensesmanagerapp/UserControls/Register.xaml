@@ -73,7 +73,7 @@
             </Border>
         </StackPanel>
 
-        <Label Content="Already Have an Account? Login Here" 
+        <Label x:Name="homeRedirect" Content="Already Have an Account? Login Here" 
                HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" 
                Foreground="#FF5865F2" Cursor="Hand" MouseLeftButtonDown="Login_Click" FontFamily="Microsoft YaHei UI"/>
 

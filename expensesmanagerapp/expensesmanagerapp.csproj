@@ -10,18 +10,27 @@
 
   <ItemGroup>
     <None Remove="img\balance.png" />
+    <None Remove="img\card.png" />
+    <None Remove="img\cardWhite.png" />
     <None Remove="img\document_data_bunseki.png" />
     <None Remove="img\income.png" />
     <None Remove="img\outcome.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="MySql.Data" Version="9.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="img\balance.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\card.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\cardWhite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\document_data_bunseki.png">

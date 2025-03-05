@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BCrypt.Net;
 using expensesmanagerapp.Models;
 
 namespace expensesmanagerapp.UserControls
@@ -81,7 +82,6 @@ namespace expensesmanagerapp.UserControls
             string email = emailtxbox.Text.Trim();
             string password = passwordtxbox.Password;
 
-            // Input Validation
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("All fields are required.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -93,11 +93,8 @@ namespace expensesmanagerapp.UserControls
                 MessageBox.Show("Invalid email format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
-            // Create User object
-            User newUser = new User(username, email, password);
-
-            // Register User
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            User newUser = new User(username, email, hashedPassword);
             bool isRegistered = database.RegisterUser(newUser);
 
             if (isRegistered)
@@ -106,7 +103,7 @@ namespace expensesmanagerapp.UserControls
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
 
-                Window.GetWindow(this)?.Close(); // Close current Register window
+                Window.GetWindow(this)?.Close();
             }
             else
             {
@@ -117,6 +114,13 @@ namespace expensesmanagerapp.UserControls
         private void Login_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void homeRedirect_Click(object sender, RoutedEventArgs e) 
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Window.GetWindow(this)?.Close();
         }
     }
 }
