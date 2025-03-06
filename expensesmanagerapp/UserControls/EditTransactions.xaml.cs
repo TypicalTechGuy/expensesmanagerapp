@@ -31,31 +31,39 @@ namespace expensesmanagerapp.UserControls
             this.transactionId = transactionId;
             userSession = UserSession.Instance;
             LoadTransactionData();
-            LoadComboBoxData();
+            typeComboBox.SelectionChanged += TypeComboBox_SelectionChanged;
+            LoadCategories("Income");
+            LoadCategories("Outcome");
         }
 
-        private void LoadComboBoxData()
+        private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LoadTypes();
-            LoadCategories();
+            if (typeComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                string selectedType = selectedItem.Content.ToString();
+                LoadCategories(selectedType);
+            }
         }
 
-        private void LoadTypes()
+        private void LoadCategories(string type)
         {
+            categoryComboBox.Items.Clear(); // Clear existing categories
+
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT DISTINCT type FROM usertransactions WHERE user_id = @UserId";
+                    string query = "SELECT category FROM transactioncategories WHERE type = @Type";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@UserId", userSession.UserId);
+                        cmd.Parameters.AddWithValue("@Type", type);
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                typeComboBox.Items.Add(reader["type"].ToString());
+                                string category = reader["category"].ToString();
+                                categoryComboBox.Items.Add(new ComboBoxItem { Content = category });
                             }
                         }
                     }
@@ -69,37 +77,13 @@ namespace expensesmanagerapp.UserControls
             {
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
 
-        private void LoadCategories()
-        {
-            try
+            //Select first Item if there is any.
+            if (categoryComboBox.Items.Count > 0)
             {
-                using (MySqlConnection conn = new MySqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string query = "SELECT DISTINCT category FROM usertransactions WHERE user_id = @UserId";
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@UserId", userSession.UserId);
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                categoryComboBox.Items.Add(reader["category"].ToString());
-                            }
-                        }
-                    }
-                }
+                categoryComboBox.SelectedIndex = 0;
             }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
         }
 
         private void LoadTransactionData()
@@ -119,9 +103,30 @@ namespace expensesmanagerapp.UserControls
                             {
                                 datePicker.SelectedDate = Convert.ToDateTime(reader["date"]);
                                 amounttxbox.Text = Convert.ToDecimal(reader["amount"]).ToString();
-                                typeComboBox.SelectedItem = reader["type"].ToString();
+
+                                // Find and select the correct type
+                                string typeFromDb = reader["type"].ToString();
+                                foreach (ComboBoxItem item in typeComboBox.Items)
+                                {
+                                    if (item.Content.ToString() == typeFromDb)
+                                    {
+                                        typeComboBox.SelectedItem = item;
+                                        break;
+                                    }
+                                }
+
+                                // Find and select the correct category
+                                string categoryFromDb = reader["category"].ToString();
+                                foreach (ComboBoxItem item in categoryComboBox.Items)
+                                {
+                                    if (item.Content.ToString() == categoryFromDb)
+                                    {
+                                        categoryComboBox.SelectedItem = item;
+                                        break;
+                                    }
+                                }
+
                                 desctxbox.Text = reader["description"].ToString();
-                                categoryComboBox.SelectedItem = reader["category"].ToString();
                             }
                         }
                     }
@@ -164,9 +169,9 @@ namespace expensesmanagerapp.UserControls
             }
 
             DateTime date = datePicker.SelectedDate.Value;
-            string type = typeComboBox.SelectedItem.ToString(); // Corrected line
+            string type = (typeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty;
             string description = desctxbox.Text;
-            string category = categoryComboBox.SelectedItem.ToString(); // Corrected line
+            string category = (categoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty;
             int userId = userSession.UserId;
 
             try

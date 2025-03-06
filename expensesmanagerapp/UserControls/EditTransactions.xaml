@@ -107,6 +107,8 @@
         <StackPanel Margin="296,180,139,230" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Border Style="{StaticResource RoundedTextBoxStyle}" Width="365" Height="40">
                 <ComboBox x:Name="typeComboBox" Style="{StaticResource RoundedComboBoxStyle}" FontFamily="Microsoft YaHei UI" FontSize="12">
+                    <ComboBoxItem Content="Income"/>
+                    <ComboBoxItem Content="Outcome"/>
                 </ComboBox>
             </Border>
         </StackPanel>
