@@ -136,6 +136,7 @@
         <StackPanel Margin="296,350,139,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Button x:Name="submitButton" Style="{StaticResource RoundedButtonStyle}" Content="Submit" Click="submitButton_Click"/>
         </StackPanel>
+        <Image Margin="25,-32,751,408" Source="/img/backArrow.png" Width="24" Height="24" Cursor="Hand" MouseDown="BackArrow_MouseDown"/>
 
     </Grid>
 </UserControl>

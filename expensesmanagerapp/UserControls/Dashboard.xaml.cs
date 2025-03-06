@@ -27,6 +27,7 @@ namespace expensesmanagerapp.UserControls
         private dbConnect dbConnection;
 
         public ChartValues<double> BillsValue { get; set; }
+        public ChartValues<double> FoodValue { get; set; }
         public ChartValues<double> EducationValue { get; set; }
         public ChartValues<double> ShoppingValue { get; set; }
         public ChartValues<double> EntertainmentValue { get; set; }
@@ -39,11 +40,7 @@ namespace expensesmanagerapp.UserControls
             LoadUserData();
             UpdateUI();
             LoadRecentTransactions();
-            BillsValue = new ChartValues<double> { 500000 };
-            EducationValue = new ChartValues<double> { 100000 };
-            ShoppingValue = new ChartValues<double> { 0 };
-            EntertainmentValue = new ChartValues<double> { 400000 };
-            MiscellaneousValue = new ChartValues<double> { 0 };
+            LoadChartData();
             DataContext = this;
         }
 
@@ -74,6 +71,32 @@ namespace expensesmanagerapp.UserControls
             }
         }
 
+        private void LoadChartData()
+        {
+            BillsValue = new ChartValues<double> { 0 };
+            FoodValue = new ChartValues<double> { 0 };
+            EducationValue = new ChartValues<double> { 0 };
+            ShoppingValue = new ChartValues<double> { 0 };
+            EntertainmentValue = new ChartValues<double> { 0 };
+            MiscellaneousValue = new ChartValues<double> { 0 };
+
+            if (userSession != null && userSession.CategoryOutcomes != null)
+            {
+                if (userSession.CategoryOutcomes.ContainsKey("Bills"))
+                    BillsValue[0] = (double)userSession.CategoryOutcomes["Bills"];
+                if (userSession.CategoryOutcomes.ContainsKey("Food"))
+                    FoodValue[0] = (double)userSession.CategoryOutcomes["Food"];
+                if (userSession.CategoryOutcomes.ContainsKey("Education"))
+                    EducationValue[0] = (double)userSession.CategoryOutcomes["Education"];
+                if (userSession.CategoryOutcomes.ContainsKey("Shopping"))
+                    ShoppingValue[0] = (double)userSession.CategoryOutcomes["Shopping"];
+                if (userSession.CategoryOutcomes.ContainsKey("Entertainment"))
+                    EntertainmentValue[0] = (double)userSession.CategoryOutcomes["Entertainment"];
+                if (userSession.CategoryOutcomes.ContainsKey("Misc."))
+                    MiscellaneousValue[0] = (double)userSession.CategoryOutcomes["Misc."];
+            }
+        }
+
         private void addTransaction_Click(object sender, RoutedEventArgs e)
         {
             AddTransactions AddTransactionsPage = new AddTransactions();
@@ -84,10 +107,23 @@ namespace expensesmanagerapp.UserControls
 
         private void editTransaction_Click(object sender, RoutedEventArgs e)
         {
-            EditTransactions EditTransactionsPage = new EditTransactions();
+            EditTransactions EditTransactionsPage = new EditTransactions(-1);
             DashboardPage.Children.Clear();
             DashboardPage.Children.Add(EditTransactionsPage);
+        }
 
+        private void ExpenseSummaryButton_Click(object sender, RoutedEventArgs e)
+        {
+            SummaryPage summaryPage = new SummaryPage();
+            DashboardPage.Children.Clear();
+            DashboardPage.Children.Add(summaryPage);
+        }
+
+        private void SeeAllLabel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            RecentTransactions recentTransactionsPage = new RecentTransactions();
+            DashboardPage.Children.Clear();
+            DashboardPage.Children.Add(recentTransactionsPage);
         }
 
         private string GetTimeGreeting()
@@ -113,7 +149,6 @@ namespace expensesmanagerapp.UserControls
                         {
                             transaction1Label.Content = $"Rp {recentTransactions[0].Amount:N0}\n{recentTransactions[0].Description}";
                         }
-
                     }
                     if (recentTransactions.Count > 1)
                     {

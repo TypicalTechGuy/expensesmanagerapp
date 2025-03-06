@@ -107,8 +107,6 @@
         <StackPanel Margin="296,180,139,230" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Border Style="{StaticResource RoundedTextBoxStyle}" Width="365" Height="40">
                 <ComboBox x:Name="typeComboBox" Style="{StaticResource RoundedComboBoxStyle}" FontFamily="Microsoft YaHei UI" FontSize="12">
-                    <ComboBoxItem Content="Income"/>
-                    <ComboBoxItem Content="Expense"/>
                 </ComboBox>
             </Border>
         </StackPanel>
@@ -124,18 +122,15 @@
         <StackPanel Margin="296,290,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Border Style="{StaticResource RoundedTextBoxStyle}" Width="365" Height="40">
                 <ComboBox x:Name="categoryComboBox" Style="{StaticResource RoundedComboBoxStyle}" FontFamily="Microsoft YaHei UI" FontSize="12">
-                    <ComboBoxItem Content="Bills and Utilities"/>
-                    <ComboBoxItem Content="Education"/>
-                    <ComboBoxItem Content="Shopping"/>
-                    <ComboBoxItem Content="Entertainment"/>
-                    <ComboBoxItem Content="Miscellaneous"/>
                 </ComboBox>
             </Border>
         </StackPanel>
 
         <StackPanel Margin="296,350,139,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Button x:Name="submitButton" Style="{StaticResource RoundedButtonStyle}" Content="Submit" Click="submitButton_Click"/>
+            <Button x:Name="submitButton" Style="{StaticResource RoundedButtonStyle}" Content="Submit" Click="UpdateButton_Click"/>
         </StackPanel>
+
+        <Image Margin="25,-32,751,408" Source="/img/backArrow.png" Width="24" Height="24" Cursor="Hand" MouseDown="BackArrow_MouseDown"/>
 
     </Grid>
 </UserControl>

@@ -75,7 +75,7 @@
 
         <Label x:Name="homeRedirect" Content="Already Have an Account? Login Here" 
                HorizontalAlignment="Center" Margin="0,267,0,0" VerticalAlignment="Top" 
-               Foreground="#FF5865F2" Cursor="Hand" MouseLeftButtonDown="Login_Click" FontFamily="Microsoft YaHei UI"/>
+               Foreground="#FF5865F2" Cursor="Hand" MouseLeftButtonDown="homeRedirect_Click" FontFamily="Microsoft YaHei UI"/>
 
         <StackPanel Margin="288,308,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Border Style="{StaticResource RoundedTextBoxStyle}" Width="220" Height="40">

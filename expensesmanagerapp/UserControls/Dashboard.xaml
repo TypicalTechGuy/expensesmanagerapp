@@ -28,7 +28,7 @@
                HorizontalAlignment="Left" 
                Margin="30,42,0,0" 
                VerticalAlignment="Top" 
-               Style="{StaticResource CustomLabelStyle}" FontSize="24" Height="38" Width="334" Foreground="Black"/>
+               Style="{StaticResource CustomLabelStyle}" FontSize="22" Height="38" Width="334" Foreground="Black"/>
         <Image x:Name="incomeImage" Margin="30,201,620,269" Source="/img/income.png" Stretch="Fill"/>
         <Label x:Name="incomeLabel" Content="Income" HorizontalAlignment="Left" Margin="80,199,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Microsoft YaHei UI"/>
         <Image Margin="214,201,436,269" Source="/img/outcome.png" Stretch="Fill"/>
@@ -43,6 +43,7 @@
         <lvc:PieChart x:Name="myPieChart" Margin="558,75,24,261">
             <lvc:PieChart.Series>
                 <lvc:PieSeries Title="Bills and Utilities" Values="{Binding BillsValue}" Fill="DeepPink"/>
+                <lvc:PieSeries Title="Foods and Drinks" Values="{Binding FoodValue}" Fill="IndianRed"/>
                 <lvc:PieSeries Title="Education" Values="{Binding EducationValue}" Fill="Orange"/>
                 <lvc:PieSeries Title="Shopping" Values="{Binding ShoppingValue}" Fill="LightBlue"/>
                 <lvc:PieSeries Title="Entertainment" Values="{Binding EntertainmentValue}" Fill="LightGreen"/>
@@ -57,18 +58,18 @@
                     BorderThickness="0" FontFamily="Microsoft YaHei" Cursor="Hand" Click="addTransaction_Click" />
         </Border>
         <Border Style="{StaticResource RoundedTextBoxStyle}" Margin="32,406,436,64">
-            <Button x:Name="editTransaction" Content="Edit Transactions" FontSize="16" Foreground="Black" Background="White"
-                BorderThickness="0" FontFamily="Microsoft YaHei" Cursor="Hand" Click="editTransaction_Click" />
+            <Button x:Name="editTransaction" Content="Expense Summary" FontSize="16" Foreground="Black" Background="White"
+                BorderThickness="0" FontFamily="Microsoft YaHei" Cursor="Hand" Click="ExpenseSummaryButton_Click" />
         </Border>
         <Image Margin="402,284,24,23" Source="/img/card.png" Stretch="Fill"/>
         <Label x:Name="dashboardLabel_Copy" Content="Recent Transactions" HorizontalAlignment="Left" Margin="422,296,0,0" VerticalAlignment="Top" Foreground="Black" FontFamily="Microsoft YaHei UI" FontSize="22"/>
-        <Label Content="See All" HorizontalAlignment="Left" Margin="680,299,0,0" VerticalAlignment="Top" Foreground="#FF5865F2" FontFamily="Microsoft YaHei UI" FontSize="18"/>
+        <Label x:Name="SeeAllLabel" Content="See All" HorizontalAlignment="Left" Margin="680,299,0,0" VerticalAlignment="Top" Foreground="#FF5865F2" FontFamily="Microsoft YaHei UI" FontSize="18" Cursor="Hand" MouseDown="SeeAllLabel_MouseDown"/>
         <Label x:Name="recentTransaction1" Content="Rp 500,000&#xD;&#xA;Groceries" HorizontalAlignment="Left" Margin="422,339,0,0" VerticalAlignment="Top" Foreground="#FF5C5C5C" FontSize="14" Width="326"/>
         <Label x:Name="recentTransaction2" Content="Rp 3,000.000&#xA;Salary" HorizontalAlignment="Left" Margin="422,391,0,0" VerticalAlignment="Top" Foreground="#FF5C5C5C" FontSize="14" Width="326"/>
         <Label x:Name="greetingLabel_2" Content="user" 
             HorizontalAlignment="Left" 
             Margin="31,80,0,0" 
             VerticalAlignment="Top" 
-            Style="{StaticResource CustomLabelStyle}" FontSize="24" Height="38" Width="334" Foreground="Black"/>
+            Style="{StaticResource CustomLabelStyle}" FontSize="22" Height="38" Width="334" Foreground="Black"/>
     </Grid>
 </UserControl>

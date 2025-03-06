@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="expensesmanagerapp.UserControls.SummaryPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:expensesmanagerapp.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#FF1C1C1C">
+        <Image Margin="25,-32,751,408" Source="/img/backArrow.png" Width="24" Height="24" Cursor="Hand" MouseDown="BackArrow_MouseDown"/>
+        <Label Content="Monthly Summary" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="24" Foreground="White" FontFamily="Microsoft YaHei UI"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top">
+            <ComboBox x:Name="MonthComboBox" Width="120" Margin="5" SelectionChanged="MonthYearComboBox_SelectionChanged"/>
+            <ComboBox x:Name="YearComboBox" Width="120" Margin="5" SelectionChanged="MonthYearComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <Grid Margin="50,80,50,80">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Total Income:" FontSize="18" Foreground="White" FontFamily="Microsoft YaHei UI" Margin="0,0,20,0" HorizontalAlignment="Right" />
+            <Label Grid.Row="0" Grid.Column="1" x:Name="IncomeLabel" FontSize="18" Foreground="LightGreen" FontFamily="Microsoft YaHei UI" HorizontalAlignment="Right" />
+
+            <Label Grid.Row="1" Grid.Column="0" Content="Total Outcome:" FontSize="18" Foreground="White" FontFamily="Microsoft YaHei UI" Margin="0,0,20,0" HorizontalAlignment="Right" />
+            <Label Grid.Row="1" Grid.Column="1" x:Name="OutcomeLabel" FontSize="18" Foreground="Tomato" FontFamily="Microsoft YaHei UI" HorizontalAlignment="Right" />
+
+            <Label Grid.Row="2" Grid.Column="0" Content="Net Balance:" FontSize="20" FontWeight="Bold" Foreground="White" FontFamily="Microsoft YaHei UI"  Margin="0,20,20,0" HorizontalAlignment="Right" />
+            <Label Grid.Row="2" Grid.Column="1" x:Name="BalanceLabel" FontSize="20" FontWeight="Bold" Foreground="Yellow" FontFamily="Microsoft YaHei UI"  HorizontalAlignment="Right" Margin="0,20,0,0"/>
+        </Grid>
+    </Grid>
+</UserControl>

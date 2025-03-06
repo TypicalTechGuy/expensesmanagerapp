@@ -5,6 +5,7 @@ using System.Text;
 using expensesmanagerapp.Models;
 using System.Windows;
 using System.Transactions;
+using expensesmanagerapp.UserControls;
 
 namespace expensesmanagerapp.Models
 {
@@ -116,33 +117,53 @@ namespace expensesmanagerapp.Models
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT type, SUM(amount) as total FROM usertransactions WHERE user_id = @UserId GROUP BY type";
-
+                    string query = "SELECT amount, type, category FROM usertransactions WHERE user_id = @UserId";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@UserId", UserSession.Instance.UserId);
-
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            decimal totalIncome = 0, totalOutcome = 0;
+                            decimal totalIncome = 0;
+                            decimal totalOutcome = 0;
+                            Dictionary<string, decimal> categoryOutcomes = new Dictionary<string, decimal>();
 
                             while (reader.Read())
                             {
-                                string type = reader["type"].ToString();
-                                decimal amount = Convert.ToDecimal(reader["total"]);
+                                decimal amount = Convert.ToDecimal(reader["amount"]);
+                                string type = reader["type"].ToString().ToLower();
+                                string category = reader["category"].ToString();
 
-                                if (type == "Income") totalIncome = amount;
-                                else if (type == "Outcome") totalOutcome = amount;
+                                if (type == "income")
+                                {
+                                    totalIncome += amount;
+                                }
+                                else if (type == "outcome")
+                                {
+                                    totalOutcome += amount;
+                                    if (categoryOutcomes.ContainsKey(category))
+                                    {
+                                        categoryOutcomes[category] += amount;
+                                    }
+                                    else
+                                    {
+                                        categoryOutcomes[category] = amount;
+                                    }
+                                }
                             }
 
                             UserSession.Instance.SetTransactions(totalIncome, totalOutcome);
+                            UserSession.Instance.SetCategoryOutcomes(categoryOutcomes);
                         }
                     }
                 }
             }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading transactions: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -155,15 +176,16 @@ namespace expensesmanagerapp.Models
                 {
                     conn.Open();
                     string query = @"
-                        SELECT amount, description, type
+                        SELECT amount, type, description
                         FROM usertransactions
                         WHERE user_id = @UserId
-                        ORDER BY created_at DESC
+                        ORDER BY date DESC
                         LIMIT 2";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@UserId", userId);
+
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -171,8 +193,8 @@ namespace expensesmanagerapp.Models
                                 transactions.Add(new Transaction
                                 {
                                     Amount = Convert.ToDecimal(reader["amount"]),
-                                    Description = reader["description"].ToString(),
-                                    Type = reader["type"].ToString()
+                                    Type = reader["type"].ToString(),
+                                    Description = reader["description"].ToString()
                                 });
                             }
                         }
@@ -188,6 +210,118 @@ namespace expensesmanagerapp.Models
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             return transactions;
+        }
+
+        public List<RecentTransactions.Transaction> GetRecentTransactionsPaged(int userId, int pageNumber, int pageSize)
+        {
+            List<RecentTransactions.Transaction> transactions = new List<RecentTransactions.Transaction>();
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT id, amount, description, type, date
+                        FROM usertransactions
+                        WHERE user_id = @UserId
+                        ORDER BY date DESC
+                        LIMIT @PageSize OFFSET @Offset";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                        cmd.Parameters.AddWithValue("@Offset", (pageNumber - 1) * pageSize);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                transactions.Add(new RecentTransactions.Transaction
+                                {
+                                    Id = Convert.ToInt32(reader["id"]),
+                                    Amount = Convert.ToDecimal(reader["amount"]),
+                                    Description = reader["description"].ToString(),
+                                    Type = reader["type"].ToString(),
+                                    Date = Convert.ToDateTime(reader["date"])
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return transactions;
+        }
+
+        public bool UpdateTransaction(int transactionId, DateTime date, decimal amount, string type, string description, string category)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "UPDATE usertransactions SET date = @Date, amount = @Amount, type = @Type, description = @Description, category = @Category WHERE id = @TransactionId";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@TransactionId", transactionId);
+                        cmd.Parameters.AddWithValue("@Date", date);
+                        cmd.Parameters.AddWithValue("@Amount", amount);
+                        cmd.Parameters.AddWithValue("@Type", type);
+                        cmd.Parameters.AddWithValue("@Description", description);
+                        cmd.Parameters.AddWithValue("@Category", category);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
+
+
+        public bool DeleteTransaction(int transactionId)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "DELETE FROM usertransactions WHERE id = @TransactionId";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@TransactionId", transactionId);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
         }
 
         public class Transaction
@@ -207,6 +341,13 @@ namespace expensesmanagerapp.Models
         public decimal Balance { get; private set; }
         public decimal Income { get; private set; }
         public decimal Outcome { get; private set; }
+
+        public Dictionary<string, decimal> CategoryOutcomes { get; private set; }
+
+        public void SetCategoryOutcomes(Dictionary<string, decimal> categoryOutcomes)
+        {
+            CategoryOutcomes = categoryOutcomes;
+        }
 
         private UserSession() { }
 

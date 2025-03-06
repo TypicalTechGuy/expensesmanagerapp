@@ -133,6 +133,25 @@ namespace expensesmanagerapp.UserControls
             }
         }
 
+        private void BackArrow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Dashboard dashboard = new Dashboard();
+            if (Parent is Grid parentGrid)
+            {
+                parentGrid.Children.Clear();
+                parentGrid.Children.Add(dashboard);
+            }
+            else if (Parent is Panel parentPanel)
+            {
+                parentPanel.Children.Clear();
+                parentPanel.Children.Add(dashboard);
+            }
+            else
+            {
+                MessageBox.Show("Cannot navigate back. Parent container not supported.");
+            }
+        }
+
         private void ClearFields()
         {
             datePicker.SelectedDate = null;
