@@ -71,5 +71,6 @@
             Margin="31,80,0,0" 
             VerticalAlignment="Top" 
             Style="{StaticResource CustomLabelStyle}" FontSize="22" Height="38" Width="334" Foreground="Black"/>
+        <Label x:Name="logOut" Content="Logout" HorizontalAlignment="Left" Margin="294,42,0,0" VerticalAlignment="Top" Foreground="#FF5865F2" FontFamily="Microsoft YaHei UI" FontSize="18" Cursor="Hand" MouseDown="logOut_MouseDown"/>
     </Grid>
 </UserControl>

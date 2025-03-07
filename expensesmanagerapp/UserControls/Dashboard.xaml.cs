@@ -126,6 +126,20 @@ namespace expensesmanagerapp.UserControls
             DashboardPage.Children.Add(recentTransactionsPage);
         }
 
+        private void logOut_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to log out?", "Confirm Logout", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                UserSession.Instance.ClearSession();
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+
+                Window.GetWindow(this)?.Close();
+            }
+        }
+
         private string GetTimeGreeting()
         {
             int hour = DateTime.Now.Hour;

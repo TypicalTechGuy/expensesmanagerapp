@@ -71,6 +71,7 @@ namespace expensesmanagerapp.UserControls
             transactionRow.ColumnDefinitions.Add(new ColumnDefinition());
             transactionRow.ColumnDefinitions.Add(new ColumnDefinition());
             transactionRow.ColumnDefinitions.Add(new ColumnDefinition());
+            transactionRow.ColumnDefinitions.Add(new ColumnDefinition());
 
             Label dateLabel = new Label();
             dateLabel.Content = transaction.Date.ToString("yyyy-MM-dd");
@@ -90,9 +91,15 @@ namespace expensesmanagerapp.UserControls
             Grid.SetColumn(descriptionLabel, 2);
             transactionRow.Children.Add(descriptionLabel);
 
+            Label typeLabel = new Label();
+            typeLabel.Content = transaction.Type;
+            typeLabel.Foreground = System.Windows.Media.Brushes.White;
+            Grid.SetColumn(typeLabel, 3);
+            transactionRow.Children.Add(typeLabel);
+
             StackPanel buttonsPanel = new StackPanel();
             buttonsPanel.Orientation = Orientation.Horizontal;
-            Grid.SetColumn(buttonsPanel, 3);
+            Grid.SetColumn(buttonsPanel, 4);
             transactionRow.Children.Add(buttonsPanel);
 
             Button editButton = new Button();

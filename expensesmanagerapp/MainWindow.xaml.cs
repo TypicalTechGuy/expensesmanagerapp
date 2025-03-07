@@ -66,7 +66,9 @@ namespace expensesmanagerapp
 
         private void ForgotPassword_Click(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Redirecting to Password Recovery...");
+            ForgotPassword forgotPass = new ForgotPassword();
+            MainWindows.Children.Clear();
+            MainWindows.Children.Add(forgotPass);
         }
     }
 }
